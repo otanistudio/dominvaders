@@ -1,5 +1,5 @@
-DOM Invaders
-============
+DOM Invaders!
+=============
 When done, it'll be at http://otanistudio.github.com/dominvaders/
 
 Self-Imposed Challenge
