@@ -37,15 +37,41 @@
           display:block;
           margin:auto;
       }
+
+      @-webkit-keyframes boom {
+          from { background-position: 0px; }
+          to { background-position: -256px; }
+      }
+
+      @-moz-keyframes boom {
+          from { background-position: 0px; }
+          to { background-position: -256px; }
+      }
+
+      div.explosion {
+          display:block;
+          padding:0;
+          margin:auto;
+          width:16px;
+          height:16px;
+          background-image:url('i/explosion3a.png');
+
+          -webkit-animation: boom 1.5s steps(16, end) 1;
+          -moz-animation: boom 1.5s steps(16, end) 1;
+      }
   </style>
 </head>
 <body>
 
-<div id="gamespace">
-  <div id="invaders"></div>
-  <img id="missile" src="i/missile.gif" />
-  <img id="ship" src="i/ship_animated.gif" />
-</div>
+  <div id="gamespace">
+    <div id="invaders"></div>
+    <img id="missile" src="i/missile.gif" />
+    <img id="ship" src="i/ship_animated.gif" />
+
+  </div>
+
+  <!-- needed to "prime" the css keyframes -->
+  <div class="explosion" style="position:absolute;left:-1000px;top:-1000px;"></div>
 
 <script type="text/javascript" charset="utf-8">
 !function() {
