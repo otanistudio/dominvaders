@@ -16,7 +16,7 @@
           width:800px;
           outline:1px dashed #2d2d2d;
       }
-        
+
       div#invaders {
           display:table;
           border-spacing:4px;
@@ -63,12 +63,18 @@
           if(movingAcross && (invadersLeft >= 300 || invadersLeft <= 0) ) {
               direction *= -1
               movingAcross = false
+              down()
           } else {
               movingAcross = true
               invadersLeft += direction * scale
               invaders.css({left:invadersLeft})
-          }
-         
+          }         
+      }
+
+      , down = function() {
+          var top = parseInt(invaders.css('top'), 10)
+          top += 50
+          invaders.css({top:top})
       }
   
       for (row = 0; row < 5; row++) {    
@@ -94,7 +100,7 @@
         if($.isNull(intervalId)) {
             intervalId = setInterval(function() {
                 move()
-            }, 500)
+            }, 1000)
         } else {
             clearInterval(intervalId)
             intervalId = null
