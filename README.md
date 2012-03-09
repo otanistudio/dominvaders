@@ -21,3 +21,7 @@ This is mainly a personal challenge where I take a self-defined coding exercise 
 Things I already knew before starting: I wrote a really crappy version a long long time ago using YUI and then threw-away the code except for the .gif files, which I'll be re-using.
 
 Also, the DOM sucks at this.
+
+Post-Mortem
+-----------
+Yeah, I'll write about how I planned this project out. Stay tuned.
