@@ -10,12 +10,35 @@
   </style>
 </head>
 <body>
-  <div id="invaders"></div>
-  <script type="text/javascript" charset="utf-8">
-  ~function() {
-    "use strict"
-    
+  
+<div id="invaders"></div>
+
+<script type="text/javascript" charset="utf-8">
+!function() {
+  "use strict"
+  var column = 0
+      , row = 0
+      , invaders = $('div#invaders')
+  
+  for (row = 0; row < 5; row++) {    
+      invaders.append('<div>')
   }
-  </script>
+
+  $('div#invaders div').each(function(e, i) {
+      var roaches = {
+              a:'i/A.gif', 
+              b:'i/B.gif', 
+              d:'i/D.gif'
+          },
+          types = ['a', 'b', 'b', 'd', 'd'],
+          column = 0
+          
+      for(column = 0; column < 11; column++) {
+          $(this).append('<div class="invader"><img src="' + roaches[types[i]] + '"></div>') 
+      }
+  })
+}();
+</script>
+  
 </body>
 </html>
