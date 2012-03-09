@@ -40,9 +40,23 @@
       , row = 0
       , invaders = $('div#invaders')
       , intervalId = null
+      , scale = 10
+      , movingAcross = true
+      , direction = 1     // left/right direction (use sign)
+
+      , invadersLeft = 0
+
 
       , move = function() {
-          
+          if(movingAcross && (invadersLeft >= 300 || invadersLeft <= 0) ) {
+              direction *= -1
+              movingAcross = false
+          } else {
+              movingAcross = true
+              invadersLeft += direction * scale
+              invaders.css({left:invadersLeft})
+          }
+         
       }
   
       for (row = 0; row < 5; row++) {    
