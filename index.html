@@ -42,38 +42,38 @@
       , intervalId = null
 
       , move = function() {
-          console.log('i want to moooove')
+          
       }
   
-  for (row = 0; row < 5; row++) {    
-      invaders.append('<div>')
-  }
-
-  $('div#invaders div').each(function(e, i) {
-      var roaches = {
-              a:'i/A.gif', 
-              b:'i/B.gif', 
-              d:'i/D.gif'
-          },
-          types = ['a', 'b', 'b', 'd', 'd'],
-          column = 0
-          
-      for(column = 0; column < 11; column++) {
-          $(this).append('<div class="invader"><img src="' + roaches[types[i]] + '"></div>') 
+      for (row = 0; row < 5; row++) {    
+          invaders.append('<div>')
       }
-  })
 
-  invaders.bind('click', function(e){
-    e.preventDefault()
-    if($.isNull(intervalId)) {
-        intervalId = setInterval(function() {
-            move()
-        }, 500)
-    } else {
-        clearInterval(intervalId)
-        intervalId = null
-    }
-})
+      $('div#invaders div').each(function(e, i) {
+          var roaches = {
+                  a:'i/A.gif', 
+                  b:'i/B.gif', 
+                  d:'i/D.gif'
+              },
+              types = ['a', 'b', 'b', 'd', 'd'],
+              column = 0
+              
+          for(column = 0; column < 11; column++) {
+              $(this).append('<div class="invader"><img src="' + roaches[types[i]] + '"></div>') 
+          }
+      })
+
+      invaders.bind('click', function(e){
+        e.preventDefault()
+        if($.isNull(intervalId)) {
+            intervalId = setInterval(function() {
+                move()
+            }, 500)
+        } else {
+            clearInterval(intervalId)
+            intervalId = null
+        }
+      })
 }();
 </script>
 
