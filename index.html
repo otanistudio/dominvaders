@@ -4,132 +4,135 @@
   <title>DOM Invaders!</title>
   <script src="j/ender.js" type="text/javascript" charset="utf-8"></script>
   <style type="text/css" media="screen">
-      body {
-          background-color:#000;
-      }
+    div#gamespace {
+        /*position:absolute; top:10px; bottom:20px; left:10px; right:10px;*/
+        position:absolute; left:50%; top:50%;
+        margin: -240px 0 0 -400px;
+        height:480px;
+        width:800px;
+        outline:1px dashed #2d2d2d;
+    }
 
-      div#gamespace {
-          /*position:absolute; top:10px; bottom:20px; left:10px; right:10px;*/
-          position:absolute; left:50%; top:50%;
-          margin: -240px 0 0 -400px;
-          height:480px;
-          width:800px;
-          outline:1px dashed #2d2d2d;
-      }
+    div#invaders {
+        display:table;
+        border-spacing:4px;
+        position:relative;
+        top:0;
+        left:152px;
+    }
+    div#invaders div.invader {
+        padding:2px 4px 2px 4px;
+        /*outline: 1px solid red;*/
+        width:32px;
+        height:32px;
+        display:table-cell;
+        vertical-align: middle;
+    }
 
-      div#invaders {
-          display:table;
-          border-spacing:4px;
-          position:relative;
-          top:0;
-          left:152px;
-      }
+    div.invader img {
+        display:block;
+        margin:auto;
+    }
 
-      div#invaders div.invader {
-          padding:2px 4px 2px 4px;
-          outline: 1px solid red;
-          width:32px;
-          height:32px;
-          display:table-cell;
-          vertical-align: middle;
-      }
+    .bloop {
+        outline: 1px solid red;
+    }
+    
+    body {
+        /*background:url('http://dl.dropbox.com/u/44057688/dominvaders/background01.gif');*/
+        background-color:#000;
+    }
 
-      div.invader img {
-          display:block;
-          margin:auto;
-      }
+    @-webkit-keyframes boom {
+        from { background-position: 0px; }
+        to { background-position: -256px; }
+    }
 
-      @-webkit-keyframes boom {
-          from { background-position: 0px; }
-          to { background-position: -256px; }
-      }
+    @-moz-keyframes boom {
+        from { background-position: 0px; }
+        to { background-position: -256px; }
+    }
 
-      @-moz-keyframes boom {
-          from { background-position: 0px; }
-          to { background-position: -256px; }
-      }
+    div.explosion {
+        display:block;
+        padding:0;
+        margin:auto;
+        width:16px;
+        height:16px;
+        background-image:url('http://dl.dropbox.com/u/44057688/dominvaders/explosion3a.png');
 
-      div.explosion {
-          display:block;
-          padding:0;
-          margin:auto;
-          width:16px;
-          height:16px;
-          background-image:url('i/explosion3a.png');
+        -webkit-animation: boom 1.5s steps(16, end) 1;
+        -moz-animation: boom 1.5s steps(16, end) 1;
+    }
 
-          -webkit-animation: boom 1.5s steps(16, end) 1;
-          -moz-animation: boom 1.5s steps(16, end) 1;
-      }
+    img#missile {
+        position:absolute;
+        display:block;
+        width:12px;
+        height:24px;
+        top:430px;
+        left:388px;
+        z-index:1;
+    }
 
-      img#missile {
-          position:absolute;
-          display:block;
-          width:12px;
-          height:24px;
-          top:430px;
-          left:388px;
-          z-index:1;
-      }
-
-      img#ship {
-          position:absolute;
-          display:block;
-          width:24px;
-          height:48px;
-          top:430px;
-          left:388px;
-          z-index:2;
-      }      
+    img#ship {
+        position:absolute;
+        display:block;
+        width:24px;
+        height:48px;
+        top:430px;
+        left:388px;
+        z-index:2;
+    }
   </style>
+
 </head>
 <body>
-
   <div id="gamespace">
-    <div id="invaders"></div>
-    <img id="missile" src="i/missile.gif" />
-    <img id="ship" src="i/ship_animated.gif" />
-
+      <div id="invaders"></div>
+      <img id="missile" src="i/missile.gif" />
+      <img id="ship" src="i/ship_animated.gif" />
   </div>
 
   <!-- needed to "prime" the css keyframes -->
   <div class="explosion" style="position:absolute;left:-1000px;top:-1000px;"></div>
 
-<script type="text/javascript" charset="utf-8">
-!function() {
-  "use strict"
-  var column = 0
-      , row = 0
-      , invaders = $('div#invaders') // contains all the invaders
-      , invaderCount = 0
-      , direction = 1  // determine left/right direction
-      , movingAcross = true
-      , intervalId = null
-      , scale = 2
-      , shoot = false
-      , missile = $('img#missile')
-      , missileRect = {}
-      , missileSpeed = 20
-      , ship = $('img#ship')
-      , shipTop = parseInt(ship.css('top'), 10)
-      , flightDirection = 0
-      , shipSpeed = 7
+  <script type="text/javascript" charset="utf-8">
+  !function() {
+      "use strict"
+      var column = 0
+          , row = 0
+          , invaders = $('div#invaders') // contains all the invaders
+          , invaderCount = 0
+          , direction = 1  // determine left/right direction
+          , movingAcross = true
+          , intervalId = null
+          , scale = 2
+          , shoot = false
+          , missile = $('img#missile')
+          , missileRect = {}
+          , missileSpeed = 20
+          , ship = $('img#ship')
+          , shipTop = parseInt(ship.css('top'), 10)
+          , flightDirection = 0
+          , shipSpeed = 7
 
-      , invadersLeft = 0
-      , missileTop = 0
-      , shipLeft = 0
-
+          , invadersLeft = 0
+          , missileTop = 0
+          , shipLeft = 0
+      
       , overlap = function(r1, r2) {
-          return ! ( r2.left > r1.left + r1.width  || 
-                     r1.left > r2.left + r2.width  || 
-                     r2.top  > r1.top  + r1.height ||
-                     r1.top  > r2.top  + r2.height )
+        return ! ( r2.left > r1.left + r1.width  || 
+                   r1.left > r2.left + r2.width  || 
+                   r2.top  > r1.top  + r1.height ||
+                   r1.top  > r2.top  + r2.height )
       }
 
       , asplode = function(alien) {
           $(alien).replaceWith("<div class='explosion'></div>")
           setTimeout(function(){$('div.explosion').remove()}, 1500)
       }
-
+      
       , collisionCheck = function() {
           $('div#invaders div.invader img').each(function(e, i) {    
               if(overlap(missile.offset(), $(e).offset())) {
@@ -140,83 +143,91 @@
                   return false
               }
           })
-    }
-        
+      }
+      
       , move = function() {
+          if(0 === invaderCount) {
+              clearInterval(intervalId)
+              alert('yay')
+          }
           invadersLeft = parseInt(invaders.css('left'), 10)
 
           if(movingAcross && (invadersLeft >= 300 || invadersLeft <= 0) ) {
-            direction *= -1
-            movingAcross = false
-            down()
+              direction *= -1
+              movingAcross = false
+              down()
           } else {
-            movingAcross = true
-            invadersLeft += direction * scale
-            invaders.css({left:invadersLeft})
+              movingAcross = true
+              invadersLeft += direction * scale
+              invaders.css({left:invadersLeft})
           }
 
           if (shoot) {
-            missileTop = parseInt(missile.css('top'), 10) || 0
-            if(missileTop <= 0) {
-                shoot = false
-                arm()
-            } else {
-                missileTop -= missileSpeed;
-                missile.css({top:missileTop})
-                collisionCheck();
-            }
+              missileTop = parseInt(missile.css('top'), 10) || 0
+              if(missileTop <= 0) {
+                  shoot = false
+                  arm()
+              } else {
+                  missileTop -= missileSpeed;
+                  missile.css({top:missileTop})
+                  collisionCheck();
+              }
           }
 
           if( 1 === flightDirection || -1 === flightDirection ) {
-            shipLeft = parseInt(ship.css('left'), 10)
-            if((shipLeft < 776 && flightDirection > 0)  || (shipLeft > 0 && flightDirection < 0)) {
-                ship.css({ left:shipLeft + shipSpeed * flightDirection })
-            }
-            if(!shoot) arm()
+              shipLeft = parseInt(ship.css('left'), 10)
+              if((shipLeft < 776 && flightDirection > 0)  || (shipLeft > 0 && flightDirection < 0)) {
+                  ship.css({ left:shipLeft + shipSpeed * flightDirection })
+              }
+              if(!shoot) arm()
           }
       }
 
       , arm = function() {
-        missile.css({top:ship.css('top'), left:ship.css('left'), display:'block'})
+          missile.css({top:ship.css('top'), left:ship.css('left'), display:'block'})
       }
-        
+      
       , down = function() {
-        var top = parseInt(invaders.css('top'), 10)
-        top += 10
-        invaders.css({top:top})
+          var top = parseInt(invaders.css('top'), 10)
+          if(top === shipTop) {
+              clearInterval(intervalId)
+              alert('boo')
+          }
+          top += 10
+          invaders.css({top:top})
       }
-  
+                  
       for (row = 0; row < 5; row++) {    
-        invaders.append('<div>')
+          invaders.append('<div>')
       }
-
+      
       $('div#invaders div').each(function(e, i) {
-        var roaches = {
-                a:'i/A.gif', 
-                b:'i/B.gif', 
-                d:'i/D.gif'
-            },
-            types = ['a', 'b', 'b', 'd', 'd'],
-            column = 0
-            
-        for(column = 0; column < 11; column++) {
-            $(this).append('<div class="invader"><img src="' + roaches[types[i]] + '"></div>') 
-            invaderCount++
-        }
+          var roaches = {
+                  a:'i/A.gif', 
+                  b:'i/B.gif', 
+                  d:'i/D.gif'
+              },
+              types = ['a', 'b', 'b', 'd', 'd'],
+              column = 0
+              
+          for(column = 0; column < 11; column++) {
+              $(this).append('<div class="invader"><img src="' + roaches[types[i]] + '"></div>') 
+              invaderCount++
+          }
       })
 
       arm()
 
       invaders.bind('click', function(e){
-        e.preventDefault()
-        if($.isNull(intervalId)) {
-            intervalId = setInterval(function() {
-                move()
-            }, 1000)
-        } else {
-            clearInterval(intervalId)
-            intervalId = null
-        }
+          e.preventDefault()
+          if($.isNull(intervalId)) {
+              intervalId = setInterval(function() {
+                  move()
+              }, 41)
+          } else {
+              clearInterval(intervalId)
+              intervalId = null
+          }
       })
 
       $(document).keydown(function(keyEvent){
@@ -241,9 +252,10 @@
           if($([38, 70, 72]).indexOf(keyEvent.keyCode) > -1) {
               shoot = true
           }
-      })      
-}();
-</script>
+      })
+      
+  }();
 
-</body>
+  </script>
+</body>    
 </html>
