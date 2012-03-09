@@ -189,10 +189,6 @@
       
       , down = function() {
           var top = parseInt(invaders.css('top'), 10)
-          if(top === shipTop) {
-              clearInterval(intervalId)
-              alert('boo')
-          }
           top += 10
           invaders.css({top:top})
       }
