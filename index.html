@@ -99,15 +99,37 @@
   "use strict"
   var column = 0
       , row = 0
-      , invaders = $('div#invaders')
-      , intervalId = null
-      , scale = 10
+      , invaders = $('div#invaders') // contains all the invaders
+      , invaderCount = 0
+      , direction = 1  // determine left/right direction
       , movingAcross = true
-      , direction = 1     // left/right direction (use sign)
+      , intervalId = null
+      , scale = 2
+      , shoot = false
+      , missile = $('img#missile')
+      , missileRect = {}
+      , missileSpeed = 20
+      , ship = $('img#ship')
+      , shipTop = parseInt(ship.css('top'), 10)
+      , flightDirection = 0
+      , shipSpeed = 7
 
       , invadersLeft = 0
+      , missileTop = 0
+      , shipLeft = 0
 
+      , overlap = function(r1, r2) {
+        return ! ( r2.left > r1.left + r1.width  || 
+                   r1.left > r2.left + r2.width  || 
+                   r2.top  > r1.top  + r1.height ||
+                   r1.top  > r2.top  + r2.height )
+      }
 
+      , asplode = function(alien) {
+          $(alien).replaceWith("<div class='explosion'></div>")
+          setTimeout(function(){$('div.explosion').remove()}, 1500)
+      }
+        
       , move = function() {
           if(movingAcross && (invadersLeft >= 300 || invadersLeft <= 0) ) {
               direction *= -1
@@ -119,10 +141,14 @@
               invaders.css({left:invadersLeft})
           }         
       }
-
+      
+      , arm = function() {
+          missile.css({top:ship.css('top'), left:ship.css('left'), display:'block'})
+      }
+        
       , down = function() {
           var top = parseInt(invaders.css('top'), 10)
-          top += 50
+          top += 10
           invaders.css({top:top})
       }
   
@@ -141,8 +167,11 @@
               
           for(column = 0; column < 11; column++) {
               $(this).append('<div class="invader"><img src="' + roaches[types[i]] + '"></div>') 
+              invaderCount++
           }
       })
+
+      arm()
 
       invaders.bind('click', function(e){
         e.preventDefault()
@@ -155,6 +184,30 @@
             intervalId = null
         }
       })
+
+      $(document).keydown(function(keyEvent){
+          // console.log(keyEvent.keyCode)
+
+          // left ship motion: 65=a, 37=left arrow, 74=j
+          if($([37, 65, 74]).indexOf(keyEvent.keyCode) > -1) {
+              flightDirection = -1
+          }
+
+          // right ship motion: 39=right arrow, 68=d, 76=l
+          if($([39, 68, 76]).indexOf(keyEvent.keyCode) > -1) {
+              flightDirection = 1
+          }
+
+          // stop ship: 40=down arrow, 83=s, 75=k
+          if($([40, 75, 83]).indexOf(keyEvent.keyCode) > -1) {
+              flightDirection = 0
+          }
+
+          // fire : 70 = f, 38 = up arrow, 72=h
+          if($([38, 70, 72]).indexOf(keyEvent.keyCode) > -1) {
+              shoot = true
+          }
+      })      
 }();
 </script>
 
