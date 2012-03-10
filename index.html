@@ -186,6 +186,13 @@
                   arm();
                   return false
               }
+
+              if(overlap(ship.offset(), $(e).offset())) {
+                  clearInterval(intervalId)
+                  alert('doh')
+                  return false
+              }
+
           })
       }
       
@@ -194,6 +201,7 @@
               clearInterval(intervalId)
               alert('yay')
           }
+
           invadersLeft = parseInt(invaders.css('left'), 10)
 
           if(movingAcross && (invadersLeft >= 300 || invadersLeft <= 0) ) {
@@ -214,7 +222,6 @@
               } else {
                   missileTop -= missileSpeed;
                   missile.css({top:missileTop})
-                  collisionCheck();
               }
           }
 
@@ -225,6 +232,8 @@
               }
               if(!shoot) arm()
           }
+
+          collisionCheck();
       }
 
       , arm = function() {
