@@ -5,7 +5,6 @@
   <script src="j/ender.js" type="text/javascript" charset="utf-8"></script>
   <style type="text/css" media="screen">
     div#gamespace {
-        /*position:absolute; top:10px; bottom:20px; left:10px; right:10px;*/
         position:absolute; left:50%; top:50%;
         margin: -240px 0 0 -400px;
         height:480px;
@@ -92,6 +91,31 @@
         width:64px;
         height:64px;
     }    
+
+    ul#instructions {
+      display:block;
+      width:300px;
+      color:white;
+      font-family:"Helvetica Neue", Arial, sans-serif;
+      font-size:15px;
+      border-radius:6px;
+      border:1px solid #fff;
+      padding:12px;
+      list-style-type:none;
+    }
+
+    ul#instructions li:first-child {
+      font-weight:bold;
+      letter-spacing:0.2em;
+      font-size:18px;
+    }
+
+    ul li.info, ul li.info a {
+      font-size:12px;
+      color:#ccc;
+      line-height:2em;
+    }
+
   </style>
 
 </head>
@@ -100,11 +124,22 @@
       <div id="invaders"></div>
       <img id="missile" src="i/missile.gif" />
       <img id="ship" src="i/ship_animated.gif" />
-      <a id="otanistudio" href="http://otanistudio.com/"><img src="http://dl.dropbox.com/u/44057688/otanistudio.com/otanistudio_logo_2011_64x64.png" /></a>
+      <!-- <a id="otanistudio" href="http://otanistudio.com/"><img src="http://dl.dropbox.com/u/44057688/otanistudio.com/otanistudio_logo_2011_64x64.png" /></a> -->
   </div>
 
   <!-- needed to "prime" the css keyframes -->
   <div class="explosion" style="position:absolute;left:-1000px;top:-1000px;"></div>
+
+  <ul id="instructions">
+    <li>DOM Invaders!</li>
+    <li>Left: &larr; or A or J</li>
+    <li>Right: &rarr; or D or L</li>
+    <li>Stop: &darr; or S or K</li>
+    <li>Fire: &uarr; or F or J</li>
+    <li>Click on the invaders to start game</li>
+    <li>Pause: click on the invaders</li>
+    <li class="info"><a href="http://github.com/otanistudio/dominvaders">Source Code</li>
+  </ol>
 
   <script type="text/javascript" charset="utf-8">
   !function() {
@@ -226,12 +261,14 @@
       invaders.bind('click', function(e){
           e.preventDefault()
           if($.isNull(intervalId)) {
+              $('ul#instructions').hide();
               intervalId = setInterval(function() {
                   move()
               }, 41)
           } else {
               clearInterval(intervalId)
               intervalId = null
+              $('ul#instructions').show();
           }
       })
 
