@@ -24,4 +24,4 @@ Also, the DOM sucks at this.
 
 Post-Mortem
 -----------
-Yeah, I'll write about how I planned this project out, and "analyze" the outcome. Stay tuned.
+Yeah, I'll write about how I planned this project out, [and "analyze" the outcome](https://github.com/otanistudio/dominvaders/blob/master/retrospective.md).
